@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     Vector2 lastMovement;
     public Animator animator;
 
+
     // Update is called once per frame
     void Update()
     {
