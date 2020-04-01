@@ -48,12 +48,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: wall_layer_back
+    uniqueID: 3958425183
+    locked: 0
   - name: player_layer
     uniqueID: 2437228109
     locked: 0
   - name: bullet_layer
     uniqueID: 3550140007
     locked: 0
-  - name: wall_layer
+  - name: wall_layer_front
     uniqueID: 2395576781
     locked: 0
