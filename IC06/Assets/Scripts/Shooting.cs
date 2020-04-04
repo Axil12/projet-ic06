@@ -16,6 +16,12 @@ public class Shooting : MonoBehaviour
 
     Transform playerTransform;
 
+    public string shootRight = "h";
+    public string shootDown = "g";
+    public string shootLeft = "f";
+    public string shootUp = "t";
+
+
     void Start()
     {
         playerColor = GetComponent<PlayerCharacteristics>().playerColor;
@@ -28,11 +34,33 @@ public class Shooting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //singleKeyShooting();
+        fourDirectionsShooting();
+    }
+
+    void singleKeyShooting() {
         if(Input.GetKey("space"))
         {
-            Shoot();
+            float shootingDirection = gameObject.GetComponent<PlayerMovement>().getAngle();
+            Shoot(shootingDirection);
 		}
-    }
+	}
+
+    void fourDirectionsShooting() {
+        if (!(Input.GetKey(shootUp) || Input.GetKey(shootRight) || Input.GetKey(shootDown) || Input.GetKey(shootLeft)))
+            return;
+
+        float shootingDirection = 0;
+        if (Input.GetKey(shootDown))
+            shootingDirection = -90;
+        else if (Input.GetKey(shootLeft))
+            shootingDirection = 180;
+        else if (Input.GetKey(shootUp))
+            shootingDirection = 90;
+
+        Shoot(shootingDirection);
+            
+	}
 
 
     public Vector3 getFirePointPosition(Vector3 playerPosition, float playerAngle) {
@@ -47,9 +75,8 @@ public class Shooting : MonoBehaviour
 
     void setCanShootToTrue(){canShoot = true;}
 
-    void singleShot() {
+    void singleShot(float shootingDirection) {
         Invoke("setCanShootToTrue", 0.25f);
-        float shootingDirection = gameObject.GetComponent<PlayerMovement>().getAngle();
         GameObject bullet = Instantiate(bulletPrefab, getFirePointPosition(playerTransform.position, shootingDirection), Quaternion.Euler(0, 0, shootingDirection));
         bullet.GetComponent<Bullet>().setColor(playerColor);
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
@@ -57,9 +84,8 @@ public class Shooting : MonoBehaviour
         rb.AddForce(rb.transform.right * bulletForce, ForceMode2D.Impulse);
 	}
 
-    void shotgunShot() {
+    void shotgunShot(float shootingDirection) {
         Invoke("setCanShootToTrue", 0.33f);
-        float shootingDirection = gameObject.GetComponent<PlayerMovement>().getAngle();
         GameObject bullet1 = Instantiate(bulletPrefab, getFirePointPosition(playerTransform.position, shootingDirection), Quaternion.Euler(0, 0, shootingDirection));
         GameObject bullet2 = Instantiate(bulletPrefab, getFirePointPosition(playerTransform.position, shootingDirection + 10), Quaternion.Euler(0, 0, shootingDirection + 10));
         GameObject bullet3 = Instantiate(bulletPrefab, getFirePointPosition(playerTransform.position, shootingDirection - 10), Quaternion.Euler(0, 0, shootingDirection - 10));
@@ -77,9 +103,8 @@ public class Shooting : MonoBehaviour
         rb3.AddForce(rb3.transform.right * bulletForce, ForceMode2D.Impulse);
 	}
 
-    void tripleShot() {
+    void tripleShot(float shootingDirection) {
         Invoke("setCanShootToTrue", 0.4f);
-        float shootingDirection = gameObject.GetComponent<PlayerMovement>().getAngle();
         GameObject bullet1 = Instantiate(bulletPrefab, getFirePointPosition(playerTransform.position, shootingDirection), Quaternion.Euler(0, 0, shootingDirection));
         GameObject bullet2 = Instantiate(bulletPrefab, getFirePointPosition(playerTransform.position + new Vector3(Mathf.Cos(shootingDirection*0.017453f)*0.2f,Mathf.Sin(shootingDirection*0.017453f)*0.2f,0), shootingDirection), Quaternion.Euler(0, 0, shootingDirection));
         GameObject bullet3 = Instantiate(bulletPrefab, getFirePointPosition(playerTransform.position + new Vector3(Mathf.Cos(shootingDirection*0.017453f)*0.4f,Mathf.Sin(shootingDirection*0.017453f)*0.4f,0), shootingDirection), Quaternion.Euler(0, 0, shootingDirection));
@@ -97,7 +122,7 @@ public class Shooting : MonoBehaviour
         rb3.AddForce(rb3.transform.right * bulletForce, ForceMode2D.Impulse);
 	}
 
-    void Shoot()
+    void Shoot(float shootingDirection)
     {
         if (!canShoot)
             return;
@@ -105,13 +130,13 @@ public class Shooting : MonoBehaviour
             canShoot = false;
 
         if (weapon == "shotgun") {
-            shotgunShot();
+            shotgunShot(shootingDirection);
 		}
         else if (weapon == "burst") {
-            tripleShot();  
+            tripleShot(shootingDirection);  
 		}
         else {
-            singleShot();  
+            singleShot(shootingDirection);  
 		}
 	}
 }

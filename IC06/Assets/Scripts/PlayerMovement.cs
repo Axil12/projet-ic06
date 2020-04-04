@@ -12,14 +12,18 @@ public class PlayerMovement : MonoBehaviour
     public Animator animator;
 
 
+    public string movUp = "z";
+    public string movDown = "s";
+    public string movRight = "d";
+    public string movLeft = "q";
+
+
     // Update is called once per frame
     void Update()
     {
         // Input
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
-        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
-            lastMovement = movement;
+        //movementFromAxis();
+        movementFromKeys();
 
         animator.SetFloat("Horizontal", movement.x);
         animator.SetFloat("Vertical", movement.y);
@@ -36,5 +40,19 @@ public class PlayerMovement : MonoBehaviour
 
     public float getAngle() {
         return playerAngle;
+	}
+
+    public void movementFromAxis() {
+        movement.x = Input.GetAxisRaw("Horizontal");
+        movement.y = Input.GetAxisRaw("Vertical");
+        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+            lastMovement = movement;
+	}
+
+    public void movementFromKeys() {
+        movement.x = (Input.GetKey(movRight) ? 1 : 0) - (Input.GetKey(movLeft) ? 1 : 0);
+        movement.y = (Input.GetKey(movUp) ? 1 : 0) - (Input.GetKey(movDown) ? 1 : 0);
+        if(Input.GetKey(movRight) || Input.GetKey(movLeft) || Input.GetKey(movUp) || Input.GetKey(movDown))
+            lastMovement = movement;
 	}
 }

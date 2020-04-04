@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManagerScript : MonoBehaviour
 {
-    //bool gameHasEnded = false;
+    bool gameHasEnded = false;
+    public float gameLength = 5.0f;
     //public float delayBeforeRestart = 1.0f;
     //public GameObject gameOverPanel;
     
@@ -19,7 +20,7 @@ public class GameManagerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Invoke("endGame", gameLength);
     }
 
     // Update is called once per frame
@@ -52,6 +53,17 @@ public class GameManagerScript : MonoBehaviour
         if (!tilesColors.ContainsKey(c))
             tilesColors.Add(c, 0);
 	}
-    public void substractOneFromColor(Color c){tilesColors[c] -= 1;}
-    public void addOneFromColor(Color c){tilesColors[c] += 1;}
+
+    public void substractOneFromColor(Color c){
+        if (!gameHasEnded)
+            tilesColors[c] -= 1;
+    }
+    public void addOneFromColor(Color c){
+        if (!gameHasEnded)
+            tilesColors[c] += 1;
+    }
+
+    public void endGame() {
+        gameHasEnded = true;
+	}
 }
