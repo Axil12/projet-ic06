@@ -9,6 +9,9 @@ public class PlayerCharacteristics : MonoBehaviour
     public int maxHealthPoints = 3;
     public int healthPoints;
     public bool isAlive = true;
+    public float respawnTime = 3.0f;
+
+    Vector3 playerStartingPosition;
 
     GameObject gameManager;
 
@@ -20,6 +23,8 @@ public class PlayerCharacteristics : MonoBehaviour
         gameManager.GetComponent<GameManagerScript>().addPlayerToDict(playerColor, playerName);
         gameManager.GetComponent<GameManagerScript>().addSpawnPointToDict(this.gameObject, this.gameObject.transform.position);
 
+        playerStartingPosition = this.gameObject.transform.position;
+
         healthPoints = maxHealthPoints;
     }
 
@@ -28,10 +33,20 @@ public class PlayerCharacteristics : MonoBehaviour
     {
         if (healthPoints <= 0)
         {
-              gameManager.GetComponent<GameManagerScript>().killPlayer(this.gameObject);
+              //gameManager.GetComponent<GameManagerScript>().killPlayer(this.gameObject);
+              Die();
               healthPoints = maxHealthPoints;
 		}
     }
+
+    public void Respawn() {
+        this.gameObject.transform.position = playerStartingPosition;
+	}
+
+    public void Die(){
+           this.gameObject.transform.position = playerStartingPosition + new Vector3(1, 1, 1)*100000;
+           Invoke("Respawn", respawnTime);
+	}
 
     public string getName(){return playerName;}
     public Color getPlayerColor(){return playerColor;}
