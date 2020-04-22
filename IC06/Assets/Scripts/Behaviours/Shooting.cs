@@ -11,6 +11,10 @@ public class Shooting : MonoBehaviour
     public GameObject bulletPrefab;
     public float bulletForce = 5f;
 
+    public string weapon = "standard";
+    
+    bool canShoot = true;
+
     Transform playerTransform;
 
     void Start()
@@ -25,23 +29,48 @@ public class Shooting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown("space"))
+        if(Input.GetKey("space") && canShoot)
         {
+            canShoot = false;
             Shoot();
 		}
     }
 
-    void Shoot()
+    void SetCanShootToTrue()
     {
+        canShoot = true;
+	}
+
+    void SingleFire() {
         float shootingDirection = gameObject.GetComponent<PlayerMovement>().getAngle();
         GameObject bullet = Instantiate(bulletPrefab, getFirePointPosition(playerTransform.position, shootingDirection), Quaternion.Euler(0, 0, shootingDirection));
         bullet.GetComponent<Bullet>().setColor(playerColor);
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         rb.rotation = shootingDirection;
         rb.AddForce(rb.transform.right * bulletForce, ForceMode2D.Impulse);
+
+        Invoke("SetCanShootToTrue", 0.33f);
+	}
+
+    void Shotgun() {
+        SingleFire(); // Placeholder, obviously.
+	}
+
+    void Shoot()
+    {
+        switch (weapon)
+        {
+            case "shotgun":
+                Shotgun();
+                break;
+            default:
+                SingleFire();
+                break;
+		}
 	}
 
     public Vector3 getFirePointPosition(Vector3 playerPosition, float playerAngle) {
+        return playerPosition;
         Vector3 firePoint = playerPosition;
         float verticalFactor = 0.0f;
         float horizontalFactor = 0.5f;
