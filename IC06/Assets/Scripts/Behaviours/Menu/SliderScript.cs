@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -8,6 +9,16 @@ using static UnityEngine.UI.Slider;
 
 public class SliderScript : MonoBehaviour
 {
+    // ENUM
+    public enum TypeSlider
+    {
+        volume = 0,
+        luminosite
+    }
+
+    // PROPRIETES
+    public TypeSlider typeSlider;
+
     // REFERENCES
     public TextMeshProUGUI valeur;
     private Slider sliderScript;
@@ -26,12 +37,38 @@ public class SliderScript : MonoBehaviour
         }
 
         // AJOUT EVENT
-        sliderScript.onValueChanged.AddListener(MiseAJour);
+        switch (typeSlider)
+        {
+            case TypeSlider.volume:
+                sliderScript.onValueChanged.AddListener(MAJVolume);
+                break;
+            case TypeSlider.luminosite:
+                sliderScript.onValueChanged.AddListener(MAJLuminosite);
+                break;
+            default:
+                break;
+        }
     }
 
-    public void MiseAJour(float sliderValue)
+    public void MAJVolume(float sliderValue)
     {
         valeur.text = (sliderValue * 100).ToString("N0") + "%";
         AudioListener.volume = sliderValue;
+    }
+
+    public void MAJLuminosite(float sliderValue)
+    {
+        valeur.text = (sliderValue * 100).ToString("N0") + "%";
+        Color tempColor = MenuScript.instance.cacheLuminosite.color;
+        if(sliderValue >= 0.1f)
+        {
+            tempColor.a = Math.Abs(1 - sliderValue);
+        }
+        else
+        {
+            valeur.text = "5%";
+            tempColor.a = 0.95f;
+        }
+        MenuScript.instance.cacheLuminosite.color = tempColor;
     }
 }

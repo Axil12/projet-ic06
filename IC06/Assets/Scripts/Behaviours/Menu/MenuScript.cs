@@ -21,6 +21,7 @@ public class MenuScript : MonoBehaviour
     public GameObject logo = null;
     public GameObject mainMenu = null;
     public GameObject optionsMenu = null;
+    public Image cacheLuminosite = null;
 
     // REFERENCES COMPONENTS
     public AudioSource menuAudioSource = null;
@@ -64,6 +65,11 @@ public class MenuScript : MonoBehaviour
         if (scriptPressStart == null)
         {
             scriptPressStart = this.transform.Find("PressStart").GetComponent<PressStartScript>();
+        }
+
+        if(cacheLuminosite == null)
+        {
+            cacheLuminosite = this.transform.Find("CacheLuminosite").GetComponent<Image>();
         }
 
         // ECRAN DE DEPART
