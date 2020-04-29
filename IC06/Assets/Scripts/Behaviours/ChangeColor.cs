@@ -25,9 +25,11 @@ public class ChangeColor : MonoBehaviour
 
     public void setColor(Color c) 
     {
-        gameManager.GetComponent<GameManagerScript>().substractOneFromColor(tileColor);
-        gameManager.GetComponent<GameManagerScript>().addOneFromColor(c);
-        tileColor = c;
+        if (!gameManager.GetComponent<GameManagerScript>().getGameHasEnded()) {
+            gameManager.GetComponent<GameManagerScript>().substractOneFromColor(tileColor);
+            gameManager.GetComponent<GameManagerScript>().addOneFromColor(c);
+            tileColor = c;
+        }
 	}
 
     public Color getColor() {return tileColor;}
