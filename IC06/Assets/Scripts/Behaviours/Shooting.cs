@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class Shooting : MonoBehaviour
 {
+    public enum NumPlayer
+    {
+        P1,
+        P2
+    }
+
     SpriteRenderer rend;
     Color playerColor;
 
+    public NumPlayer numPlayer;
     public Transform firePoint;
     public GameObject bulletPrefab;
     public float bulletForce = 5f;
@@ -29,11 +36,45 @@ public class Shooting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey("space") && canShoot)
+        // SI TIR POSSIBLE
+        if(canShoot == true)
         {
-            canShoot = false;
-            Shoot();
-		}
+            // JOUEUR 1
+            if(numPlayer == NumPlayer.P1)
+            {
+                // TIR SIMPLE
+                if (Input.GetButtonDown("P1 - FireButton"))
+                {
+                    canShoot = false;
+                    Shoot();
+                }
+
+                // TIR DIRECTIONNEL
+                if (Input.GetAxisRaw("P1 - FireX") != 0 || Input.GetAxisRaw("P1 - FireY") != 0)
+                {
+                    canShoot = false;
+                    Shoot();
+                }
+            }
+
+            // JOUEUR 2
+            else
+            {
+                // TIR SIMPLE
+                if (Input.GetButtonDown("P2 - FireButton"))
+                {
+                    canShoot = false;
+                    Shoot();
+                }
+
+                // TIR DIRECTIONNEL
+                if (Input.GetAxisRaw("P2 - FireX") != 0 || Input.GetAxisRaw("P2 - FireY") != 0)
+                {
+                    canShoot = false;
+                    Shoot();
+                }
+            }
+        }
     }
 
     void SetCanShootToTrue()

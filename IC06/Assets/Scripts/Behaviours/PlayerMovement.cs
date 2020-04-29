@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public enum NumPlayer
+    {
+       P1,
+       P2
+    }
+
+    public NumPlayer numPlayer;
     public float moveSpeed = 2.5f;
     public float playerAngle = 0.0f;
     public Rigidbody2D rb;
@@ -15,15 +22,31 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Input
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
-        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
-            lastMovement = movement;
+        // Input P1
+        if(numPlayer == NumPlayer.P1)
+        {
+            movement.x = Input.GetAxisRaw("P1 - Horizontal");
+            movement.y = Input.GetAxisRaw("P1 - Vertical");
+            if (Input.GetAxisRaw("P1 - Horizontal") != 0 || Input.GetAxisRaw("P1 - Vertical") != 0)
+                lastMovement = movement;
 
-        animator.SetFloat("Horizontal", movement.x);
-        animator.SetFloat("Vertical", movement.y);
-        animator.SetFloat("Speed", movement.sqrMagnitude);
+            animator.SetFloat("Horizontal", movement.x);
+            animator.SetFloat("Vertical", movement.y);
+            animator.SetFloat("Speed", movement.sqrMagnitude);
+        }
+
+        if (numPlayer == NumPlayer.P2)
+        {
+            movement.x = Input.GetAxisRaw("P2 - Horizontal");
+            movement.y = Input.GetAxisRaw("P2 - Vertical");
+            if (Input.GetAxisRaw("P2 - Horizontal") != 0 || Input.GetAxisRaw("P2 - Vertical") != 0)
+                lastMovement = movement;
+
+            animator.SetFloat("Horizontal", movement.x);
+            animator.SetFloat("Vertical", movement.y);
+            animator.SetFloat("Speed", movement.sqrMagnitude);
+        }
+
     }
 
     void FixedUpdate()
