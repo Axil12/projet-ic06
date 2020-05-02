@@ -102,9 +102,6 @@
     <Reference Include="UnityEditor.UI">
       <HintPath>D:/Robin/UTC/Cours/GI04/IC06/Unity/projet-ic06/IC06/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.InputSystem">
-      <HintPath>D:/Robin/UTC/Cours/GI04/IC06/Unity/projet-ic06/IC06/Library/ScriptAssemblies/Unity.InputSystem.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files (x86)/UnityEditor/2019.3.3f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
     </Reference>

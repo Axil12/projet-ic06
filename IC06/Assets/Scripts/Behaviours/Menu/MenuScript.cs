@@ -14,18 +14,33 @@ public class MenuScript : MonoBehaviour
     // SONS
     public enum Sons
     {
-        PressStart = 0
+        PressStart = 0,
+        Select,
+        Move,
+    }
+
+    public enum Musics
+    {
+        Title = 0,
+        Action1,
+        Action2,
+        Action3,
+        Ending
     }
 
     // REFERENCES OBJETS
     public GameObject logo = null;
     public GameObject mainMenu = null;
     public GameObject optionsMenu = null;
+    public GameObject charactersMenu = null;
+    public GameObject parametersMenu = null;
     public Image cacheLuminosite = null;
 
     // REFERENCES COMPONENTS
-    public AudioSource menuAudioSource = null;
+    public AudioSource musicAudio = null;
+    public AudioSource sfxAudio = null;
     public PressStartScript scriptPressStart = null;
+    public ParametersMenuScript parametersMenuScript = null;
 
     // PROPRIETES PUBLIQUES
 
@@ -47,14 +62,19 @@ public class MenuScript : MonoBehaviour
             logo = this.transform.Find("TitleLogo").gameObject;
         }
 
-        if (menuAudioSource == null)
-        {
-            menuAudioSource = this.GetComponent<AudioSource>();
-        }
-
         if (mainMenu == null)
         {
             mainMenu = this.transform.Find("MainMenu").gameObject;
+        }
+
+        if (parametersMenu == null)
+        {
+            parametersMenu = this.transform.Find("ParametersMenu").gameObject;
+        }
+
+        if (charactersMenu == null)
+        {
+            //charactersMenu = this.transform.Find("CharactersMenu").gameObject;
         }
 
         if (optionsMenu == null)
@@ -72,12 +92,21 @@ public class MenuScript : MonoBehaviour
             cacheLuminosite = this.transform.Find("CacheLuminosite").GetComponent<Image>();
         }
 
+        if (parametersMenu != null && parametersMenuScript == null)
+        {
+            parametersMenuScript = parametersMenu.transform.Find("Parameters").GetComponent<ParametersMenuScript>();
+        }
+    }
+
+    private void Start()
+    {
         // ECRAN DE DEPART
         InitAffichage();
     }
 
     private void Update()
     {
+        // VALIDATION MENU
         if (Input.GetButtonDown("Submit")){
             // DETECTION START (Ecran Titre)
             if (isStarted == false)
@@ -86,17 +115,45 @@ public class MenuScript : MonoBehaviour
                 scriptPressStart.Accelerer();
             }
         }
+
+        // NAVIGATION MENU
+        if (scriptPressStart.gameObject.activeInHierarchy == false && Input.GetButtonDown("Vertical"))
+        {
+            // JOUE SON
+            JouerSon(Sons.Move);
+        }
+
+        if (!parametersMenuScript.onStart && parametersMenu.activeInHierarchy == true && Input.GetButtonDown("Horizontal"))
+        {
+            // JOUE SON
+            JouerSon(Sons.Move);
+        }
     }
 
     // METHODES BOUTONS
 
-    public void PlayGame()
+    public void LaunchGame()
     {
         SceneManager.LoadScene("InGame");
     }
 
+    public void ButtonPlay()
+    {
+        // JOUE SON
+        JouerSon(Sons.Select);
+
+        // MAJ AFFICHAGE
+        logo.SetActive(false);
+        mainMenu.SetActive(false);
+        parametersMenu.SetActive(true);
+        parametersMenuScript.ArenaButton.Select();
+    }
+
     public void EnterOptions()
     {
+        // JOUE SON
+        JouerSon(Sons.Select);
+
         // MAJ AFFICHAGE
         logo.SetActive(false);
         mainMenu.SetActive(false);
@@ -106,6 +163,9 @@ public class MenuScript : MonoBehaviour
 
     public void LeaveOptions()
     {
+        // JOUE SON
+        JouerSon(Sons.Select);
+
         // MAJ AFFICHAGE
         logo.SetActive(true);
         mainMenu.SetActive(true);
@@ -133,8 +193,11 @@ public class MenuScript : MonoBehaviour
         logo.SetActive(true);
         mainMenu.SetActive(false);
         optionsMenu.SetActive(false);
+        parametersMenu.SetActive(false);
         scriptPressStart.gameObject.SetActive(true);
-        AudioListener.volume = 0.5f;
+        musicAudio.volume = 0.5f;
+        sfxAudio.volume = 0.5f;
+        JouerMusic(Musics.Title);
     }
 
     public void ToggleFullscreen()
@@ -145,7 +208,14 @@ public class MenuScript : MonoBehaviour
     public void JouerSon(Sons SonAJouer)
     {
         string chemin = "Sounds/" + SonAJouer.ToString();
-        menuAudioSource.clip = Resources.Load(chemin, typeof(AudioClip)) as AudioClip;
-        menuAudioSource.Play();
+        sfxAudio.clip = Resources.Load(chemin, typeof(AudioClip)) as AudioClip;
+        sfxAudio.Play();
+    }
+
+    public void JouerMusic(Musics MusicAJouer)
+    {
+        string chemin = "Musics/" + MusicAJouer.ToString();
+        musicAudio.clip = Resources.Load(chemin, typeof(AudioClip)) as AudioClip;
+        musicAudio.Play();
     }
 }

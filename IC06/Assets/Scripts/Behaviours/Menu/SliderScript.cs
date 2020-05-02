@@ -13,6 +13,7 @@ public class SliderScript : MonoBehaviour
     public enum TypeSlider
     {
         volume = 0,
+        sfx,
         luminosite
     }
 
@@ -42,6 +43,9 @@ public class SliderScript : MonoBehaviour
             case TypeSlider.volume:
                 sliderScript.onValueChanged.AddListener(MAJVolume);
                 break;
+            case TypeSlider.sfx:
+                sliderScript.onValueChanged.AddListener(MAJSFX);
+                break;
             case TypeSlider.luminosite:
                 sliderScript.onValueChanged.AddListener(MAJLuminosite);
                 break;
@@ -53,7 +57,16 @@ public class SliderScript : MonoBehaviour
     public void MAJVolume(float sliderValue)
     {
         valeur.text = (sliderValue * 100).ToString("N0") + "%";
-        AudioListener.volume = sliderValue;
+        MenuScript.instance.musicAudio.volume = sliderValue;
+        GameParameters.MusicVolume = sliderValue;
+    }
+
+    public void MAJSFX(float sliderValue)
+    {
+        valeur.text = (sliderValue * 100).ToString("N0") + "%";
+        MenuScript.instance.sfxAudio.volume = sliderValue;
+        MenuScript.instance.JouerSon(MenuScript.Sons.Move);
+        GameParameters.SfxVolume = sliderValue;
     }
 
     public void MAJLuminosite(float sliderValue)
@@ -70,5 +83,6 @@ public class SliderScript : MonoBehaviour
             tempColor.a = 0.95f;
         }
         MenuScript.instance.cacheLuminosite.color = tempColor;
+        GameParameters.Luminosite = sliderValue;
     }
 }
