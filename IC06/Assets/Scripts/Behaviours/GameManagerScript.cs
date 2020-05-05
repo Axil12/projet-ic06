@@ -125,6 +125,7 @@ public class GameManagerScript : MonoBehaviour
     public void endGame() {
         gameHasEnded = true;
         Debug.Log("Winner : " + getWinner());
+        SceneManager.LoadScene("Menu");// Go back to the menu after the game has ended. We need to add a "victory" screen/pop up.
 	}
 
     // METHODES ROBIN
