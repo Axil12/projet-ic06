@@ -113,6 +113,21 @@ public static class GameParameters
         set { time = value; }
     }
 
+    public static float getTimeModeInSeconds() {
+        switch(time)
+        {
+        case TimeMode.minute1:
+            return 60.0f;
+        case TimeMode.minute3:
+            return 180.0f;
+        case TimeMode.minute5:
+            return 300.0f;
+        default:
+            return 180.0f;
+		}
+
+	}
+
     private static PowerUpsMode powerUpsFrequency = PowerUpsMode.Normal;
 
     public static PowerUpsMode PowerUpsFrequency

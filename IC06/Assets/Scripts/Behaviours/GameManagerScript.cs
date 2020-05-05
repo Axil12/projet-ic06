@@ -28,7 +28,7 @@ public class GameManagerScript : MonoBehaviour
     //public GameObject gameOverPanel;
 
     bool gameHasEnded = false;
-    public float gameLength = 5.0f; //In seconds
+    public float gameLength = 10.0f; //In seconds
 
     
     Dictionary<Color, string> players = new Dictionary<Color, string>();
@@ -128,7 +128,7 @@ public class GameManagerScript : MonoBehaviour
 
         // PARAMETRAGE PARTIE (Temps Respawn, Temps partie, Taux apparition powersUps, PVs)
         //GameParameters.RespawnTime;
-        //GameParameters.Time;
+        gameLength = GameParameters.getTimeModeInSeconds();
         //GameParameters.PowerUpsFrequency;
         //GameParameters.PVMode;
 
