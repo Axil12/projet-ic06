@@ -28,7 +28,7 @@ public class GameManagerScript : MonoBehaviour
     //public GameObject gameOverPanel;
 
     bool gameHasEnded = false;
-    public float gameLength = 10.0f; //In seconds
+    public float gameLength = 5.0f; //In seconds
 
     
     Dictionary<Color, string> players = new Dictionary<Color, string>();
@@ -85,19 +85,23 @@ public class GameManagerScript : MonoBehaviour
     public bool getGameHasEnded(){return gameHasEnded;}
 
     public string getWinner() {
-        int highestScore = 0;
+        int highestScore = -1;
         string winner = "No winner";
+
         foreach(KeyValuePair<Color, int> entry in tilesColors)
         {
-            if (entry.Value > highestScore)
+            if (players.ContainsKey(entry.Key))
             {
-                highestScore = entry.Value;
-                winner = players[entry.Key];
+                if (entry.Value > highestScore)
+                {
+                    highestScore = entry.Value;
+                    winner = players[entry.Key];
+                }
+                else if (entry.Value == highestScore) //If mutiple players have the same number of tiles colored
+                {
+                    winner = winner + " and " + players[entry.Key];
+			    }
             }
-            else if (entry.Value == highestScore) //If mutiple players have the same number of tiles colored
-            {
-                winner = winner + " and " + players[entry.Key];
-			}
         }
         return winner;
 	}
