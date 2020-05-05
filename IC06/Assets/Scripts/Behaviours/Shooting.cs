@@ -43,7 +43,7 @@ public class Shooting : MonoBehaviour
             if(numPlayer == NumPlayer.P1)
             {
                 // TIR SIMPLE
-                if (Input.GetButtonDown("P1 - FireButton"))
+                if (Input.GetButton("P1 - FireButton"))
                 {
                     canShoot = false;
                     Shoot();
