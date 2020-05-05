@@ -125,7 +125,6 @@ public static class GameParameters
         default:
             return 180.0f;
 		}
-
 	}
 
     private static PowerUpsMode powerUpsFrequency = PowerUpsMode.Normal;
@@ -144,6 +143,20 @@ public static class GameParameters
         set { respawnTime = value; }
     }
 
+    public static float getRespawnTimeInSeconds() {
+        switch(respawnTime)
+        {
+        case RespawnTimeMode.sec2:
+            return 2.0f;
+        case RespawnTimeMode.sec4:
+            return 4.0f;
+        case RespawnTimeMode.sec6:
+            return 6.0f;
+        default:
+            return 5.0f;
+		}
+	}
+
     private static PlayersPVMode pvMode = PlayersPVMode.percent100;
 
     public static PlayersPVMode PVMode
@@ -151,4 +164,18 @@ public static class GameParameters
         get { return pvMode; }
         set { pvMode = value; }
     }
+
+    public static int getMaxHealthPointsSetting() {
+        switch(pvMode)
+        {
+        case PlayersPVMode.percent100:
+            return 3;
+        case PlayersPVMode.percent50:
+            return 2;
+        case PlayersPVMode.percent200:
+            return 6;
+        default:
+            return 3;
+		}
+	}
 }

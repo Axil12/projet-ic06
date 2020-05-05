@@ -61,10 +61,26 @@ public class GameManagerScript : MonoBehaviour
             players.Add(c, playerName);
 	}
 
-    public void addSpawnPointToDict(GameObject go, Vector2 location)
+    public void addSpawnPointToDict(GameObject go, Vector2 location) //Might be useless now (since the spawn system is now included in the PlayerCharacteristics. I might delete it later
     {
      if (!spawnPoints.ContainsKey(go))
         spawnPoints.Add(go, location);
+	}
+
+    public void setMaxHealthPointsForPlayers(int hp) {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach(GameObject player in players)
+        {
+            player.GetComponent<PlayerCharacteristics>().setMaxHealthPoints(hp);
+		}
+	}
+
+    public void setRespawnTimeForPlayers(float t) {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach(GameObject player in players)
+        {
+            player.GetComponent<PlayerCharacteristics>().setRespawnTime(t);
+		}
 	}
 
     public void killPlayer(GameObject player)
@@ -127,10 +143,10 @@ public class GameManagerScript : MonoBehaviour
         //GameParameters.SelectedArena;
 
         // PARAMETRAGE PARTIE (Temps Respawn, Temps partie, Taux apparition powersUps, PVs)
-        //GameParameters.RespawnTime;
+        setRespawnTimeForPlayers(GameParameters.getRespawnTimeInSeconds());
         gameLength = GameParameters.getTimeModeInSeconds();
         //GameParameters.PowerUpsFrequency;
-        //GameParameters.PVMode;
+        setMaxHealthPointsForPlayers(GameParameters.getMaxHealthPointsSetting());
 
         // MUSIQUE ALEATOIRE
         System.Random rnd = new System.Random();

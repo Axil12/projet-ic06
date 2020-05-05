@@ -26,6 +26,11 @@ public class PlayerCharacteristics : MonoBehaviour
         playerStartingPosition = this.gameObject.transform.position;
 
         healthPoints = maxHealthPoints;
+
+        Debug.Log(playerName + " : " 
+            + " maxHP : " + maxHealthPoints + " HP"
+            + " Respawn time : " + respawnTime + "s"
+            );
     }
 
     // Update is called once per frame
@@ -54,4 +59,7 @@ public class PlayerCharacteristics : MonoBehaviour
     public void takeDamage(int damage){healthPoints -= 1;}
     public void addHP(int damage){healthPoints -= 1;}
     public void die(){isAlive = false;}
+
+    public void setRespawnTime(float t){respawnTime = t;}
+    public void setMaxHealthPoints(int hp){maxHealthPoints = hp;}
 }
