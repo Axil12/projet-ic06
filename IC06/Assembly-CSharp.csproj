@@ -82,6 +82,7 @@
     <Compile Include="Assets\Scripts\Behaviours\PlayerCharacteristics.cs" />
     <Compile Include="Assets\Scripts\Behaviours\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Behaviours\Shooting.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\winnerText.cs" />
     <Compile Include="Assets\Scripts\Classes\Arena.cs" />
     <Compile Include="Assets\Scripts\Classes\Character.cs" />
     <Compile Include="Assets\Scripts\Classes\GameParameters.cs" />
