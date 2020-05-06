@@ -6108,6 +6108,11 @@ PrefabInstance:
       propertyPath: musicAudio
       value: 
       objectReference: {fileID: 443428919}
+    - target: {fileID: 110652221852356597, guid: 2c4a6c0ac611f7f47ab689242a99c1c3,
+        type: 3}
+      propertyPath: timer
+      value: 
+      objectReference: {fileID: 2037882071}
     - target: {fileID: 480204368622373559, guid: 2c4a6c0ac611f7f47ab689242a99c1c3,
         type: 3}
       propertyPath: m_PlayOnAwake
@@ -13611,7 +13616,7 @@ GameObject:
   - component: {fileID: 2037882072}
   - component: {fileID: 2037882071}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Timer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
