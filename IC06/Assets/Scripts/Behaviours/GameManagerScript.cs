@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class GameManagerScript : MonoBehaviour
@@ -20,6 +21,9 @@ public class GameManagerScript : MonoBehaviour
         Action3,
     }
 
+    // EVENTS
+    public UnityEvent MAJScore;
+
     // REFERENCES
     public AudioSource musicAudio = null;
     public AudioSource sfxAudio = null;
@@ -32,10 +36,12 @@ public class GameManagerScript : MonoBehaviour
     private bool gameHasEnded = false;
     public float gameLength = 10.0f; //In seconds
 
-
-    Dictionary<Color, string> players = new Dictionary<Color, string>();
-    Dictionary<GameObject, Vector2> spawnPoints = new Dictionary<GameObject, Vector2>();
-    Dictionary<Color, int> tilesColors = new Dictionary<Color, int>();
+    [HideInInspector]
+    public Dictionary<Color, string> players = new Dictionary<Color, string>();                     // 
+    [HideInInspector]
+    public Dictionary<GameObject, Vector2> spawnPoints = new Dictionary<GameObject, Vector2>();     //
+    [HideInInspector]
+    public Dictionary<Color, int> tilesColors = new Dictionary<Color, int>();                       // Couleur / Score
 
     void Awake()
     {
@@ -72,8 +78,8 @@ public class GameManagerScript : MonoBehaviour
 
     public void addSpawnPointToDict(GameObject go, Vector2 location) //Might be useless now (since the spawn system is now included in the PlayerCharacteristics. I might delete it later
     {
-     if (!spawnPoints.ContainsKey(go))
-        spawnPoints.Add(go, location);
+        if (!spawnPoints.ContainsKey(go))
+            spawnPoints.Add(go, location);
 	}
 
     public void setMaxHealthPointsForPlayers(int hp) {
@@ -104,8 +110,16 @@ public class GameManagerScript : MonoBehaviour
         if (!tilesColors.ContainsKey(c))
             tilesColors.Add(c, 0);
 	}
-    public void substractOneFromColor(Color c){tilesColors[c] -= 1;}
-    public void addOneFromColor(Color c){tilesColors[c] += 1;}
+    public void substractOneFromColor(Color c)
+    {
+        tilesColors[c] -= 1;
+        MAJScore.Invoke();
+    }
+    public void addOneFromColor(Color c)
+    {
+        tilesColors[c] += 1;
+        MAJScore.Invoke();
+    }
     
     public bool getGameHasEnded(){return gameHasEnded;}
 
@@ -131,7 +145,8 @@ public class GameManagerScript : MonoBehaviour
         return winner;
 	}
 
-    public void endGame() {
+    public void endGame() 
+    {
         gameHasEnded = true;
         Debug.Log("Winner : " + getWinner());
         SceneManager.LoadScene("Menu");// Go back to the menu after the game has ended. We need to add a "victory" screen/pop up.
