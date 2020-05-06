@@ -838,7 +838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de80ec81844e1224f81544ab54e62222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  winnerDisplay: {fileID: 0}
+  winnerDisplay: {fileID: 105250484}
 --- !u!114 &105250484
 MonoBehaviour:
   m_ObjectHideFlags: 0
