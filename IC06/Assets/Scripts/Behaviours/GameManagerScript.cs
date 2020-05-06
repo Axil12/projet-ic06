@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -21,16 +23,16 @@ public class GameManagerScript : MonoBehaviour
     // REFERENCES
     public AudioSource musicAudio = null;
     public AudioSource sfxAudio = null;
+    public TextMeshProUGUI timer = null;
 
     // PROPRIETES
-
     //public float delayBeforeRestart = 1.0f;
     //public GameObject gameOverPanel;
 
-    bool gameHasEnded = false;
+    private bool gameHasEnded = false;
     public float gameLength = 10.0f; //In seconds
 
-    
+
     Dictionary<Color, string> players = new Dictionary<Color, string>();
     Dictionary<GameObject, Vector2> spawnPoints = new Dictionary<GameObject, Vector2>();
     Dictionary<Color, int> tilesColors = new Dictionary<Color, int>();
@@ -44,13 +46,20 @@ public class GameManagerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Invoke("endGame", gameLength);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        // TIMER : On décrémente le temps au fur et à mesure
+        gameLength -= Time.deltaTime;
+        TimeSpan ts = TimeSpan.FromSeconds(gameLength + 1f);
+        timer.text = ts.ToString("mm\\:ss");
+        if (gameLength <= -1)
+        {
+            endGame();
+        }
     }
 
     // METHODES AXIL
