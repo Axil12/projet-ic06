@@ -175,6 +175,8 @@ public class MenuScript : MonoBehaviour
 
     public void ExitGame()
     {
+        Application.Quit();
+        /*
         Debug.Log("Exiting the game...");
         if (Application.isEditor)
         {
@@ -184,6 +186,7 @@ public class MenuScript : MonoBehaviour
         {
             Application.Quit();
         }
+        */
     }
 
     // METHODES GENERALES
