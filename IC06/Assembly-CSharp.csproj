@@ -74,11 +74,13 @@
     <Compile Include="Assets\Scripts\Behaviours\ChangeColor.cs" />
     <Compile Include="Assets\Scripts\Behaviours\GameManagerScript.cs" />
     <Compile Include="Assets\Scripts\Behaviours\Menu\BoutonScript.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\Menu\CountdownScript.cs" />
     <Compile Include="Assets\Scripts\Behaviours\Menu\MenuScript.cs" />
     <Compile Include="Assets\Scripts\Behaviours\Menu\ParametersButton.cs" />
     <Compile Include="Assets\Scripts\Behaviours\Menu\ParametersMenuScript.cs" />
     <Compile Include="Assets\Scripts\Behaviours\Menu\PressStartScript.cs" />
     <Compile Include="Assets\Scripts\Behaviours\Menu\SliderScript.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\Menu\hurryUpScript.cs" />
     <Compile Include="Assets\Scripts\Behaviours\PlayerCharacteristics.cs" />
     <Compile Include="Assets\Scripts\Behaviours\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Behaviours\Shooting.cs" />
@@ -87,6 +89,7 @@
     <Compile Include="Assets\Scripts\Classes\Arena.cs" />
     <Compile Include="Assets\Scripts\Classes\Character.cs" />
     <Compile Include="Assets\Scripts\Classes\GameParameters.cs" />
+    <Compile Include="Assets\Scripts\Classes\Sons.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
@@ -137,6 +140,7 @@
     <None Include="Assets\ProCore\ProGrids\About\pc_AboutEntry_ProGrids.txt" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\ProCore\ProGrids\Shader\pg_GridShader.shader" />
+    <None Include="Assets\Resources\Sounds\credits.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\ProCore\ProGrids\About\changelog.txt" />

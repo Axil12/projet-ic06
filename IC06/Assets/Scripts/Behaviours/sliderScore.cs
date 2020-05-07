@@ -55,6 +55,12 @@ public class sliderScore : MonoBehaviour
         sliderColor2.color = ListeCouleurs[0];
         sliderScript.maxValue = Color1Score + Color2Score;
         sliderScript.value = Color1Score;
+
+        if(Color1Score == 0)
+        {
+            sliderColor2.color = ListeCouleurs[1];
+        }
+
     }
 
 }

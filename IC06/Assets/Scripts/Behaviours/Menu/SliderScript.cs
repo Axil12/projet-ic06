@@ -65,7 +65,7 @@ public class SliderScript : MonoBehaviour
     {
         valeur.text = (sliderValue * 100).ToString("N0") + "%";
         MenuScript.instance.sfxAudio.volume = sliderValue;
-        MenuScript.instance.JouerSon(MenuScript.Sons.Move);
+        MenuScript.instance.JouerSon(Sons.Menu.Move);
         GameParameters.SfxVolume = sliderValue;
     }
 

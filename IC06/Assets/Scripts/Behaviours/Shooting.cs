@@ -10,8 +10,9 @@ public class Shooting : MonoBehaviour
         P2
     }
 
-    SpriteRenderer rend;
-    Color playerColor;
+    public AudioSource sfxPlayer = null;
+    public SpriteRenderer rend;
+    private Color playerColor;
 
     public NumPlayer numPlayer;
     public Transform firePoint;
@@ -31,13 +32,20 @@ public class Shooting : MonoBehaviour
         rend.color = playerColor;
 
         playerTransform = gameObject.GetComponent<Transform>();
-	}
+
+        if(sfxPlayer == null)
+        {
+            sfxPlayer = this.GetComponent<AudioSource>();
+        }
+        sfxPlayer.volume = GameParameters.SfxVolume;
+
+    }
 
     // Update is called once per frame
     void Update()
     {
         // SI TIR POSSIBLE
-        if(canShoot == true)
+        if(!GameManagerScript.instance.pause && canShoot == true)
         {
             // JOUEUR 1
             if(numPlayer == NumPlayer.P1)
@@ -61,7 +69,7 @@ public class Shooting : MonoBehaviour
             else
             {
                 // TIR SIMPLE
-                if (Input.GetButtonDown("P2 - FireButton"))
+                if (Input.GetButton("P2 - FireButton"))
                 {
                     canShoot = false;
                     Shoot();
@@ -83,12 +91,15 @@ public class Shooting : MonoBehaviour
 	}
 
     void SingleFire() {
+
         float shootingDirection = gameObject.GetComponent<PlayerMovement>().getAngle();
         GameObject bullet = Instantiate(bulletPrefab, getFirePointPosition(playerTransform.position, shootingDirection), Quaternion.Euler(0, 0, shootingDirection));
         bullet.GetComponent<Bullet>().setColor(playerColor);
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         rb.rotation = shootingDirection;
         rb.AddForce(rb.transform.right * bulletForce, ForceMode2D.Impulse);
+
+        JouerSon(Sons.InGame.Shoot1);
 
         Invoke("SetCanShootToTrue", 0.33f);
 	}
@@ -120,4 +131,11 @@ public class Shooting : MonoBehaviour
         firePoint = firePoint + new Vector3(Mathf.Cos(playerAngle)*horizontalFactor + horizontalOffset, Mathf.Sin(playerAngle)*verticalFactor + verticalOffset, 0);
         return firePoint;
 	}
+
+    public void JouerSon(Sons.InGame SonAJouer)
+    {
+        string chemin = "Sounds/InGame/" + SonAJouer.ToString();
+        sfxPlayer.clip = Resources.Load(chemin, typeof(AudioClip)) as AudioClip;
+        sfxPlayer.Play();
+    }
 }

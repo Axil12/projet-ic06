@@ -8,21 +8,23 @@ public class winnerText : MonoBehaviour
 {
     //Displays who won the game
 
-    private GameObject gameManager;
     public TextMeshProUGUI winnerDisplay;
 
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = GameObject.FindWithTag("GameManager");
+        if(winnerDisplay == null)
+        {
+            winnerDisplay = GetComponent<TextMeshProUGUI>();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        bool gameHasEnded = gameManager.GetComponent<GameManagerScript>().getGameHasEnded();
+        bool gameHasEnded = GameManagerScript.instance.GetComponent<GameManagerScript>().getGameHasEnded();
         if (gameHasEnded) {
-            winnerDisplay.text = gameManager.GetComponent<GameManagerScript>().getWinner();
+            winnerDisplay.text = GameManagerScript.instance.GetComponent<GameManagerScript>().getWinner();
 		}
     }
 }

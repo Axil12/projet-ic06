@@ -26,8 +26,8 @@ public static class GameParameters
     public enum TimeMode
     {
         minute1,
-        minute3,
-        minute5
+        minute2,
+        minute3
     }
 
     public enum PowerUpsMode
@@ -40,9 +40,9 @@ public static class GameParameters
 
     public enum RespawnTimeMode
     {
+        sec1,
         sec2,
-        sec4,
-        sec6
+        sec3
     }
 
     public enum PlayersPVMode
@@ -105,7 +105,7 @@ public static class GameParameters
         set { selectedArena = value; }
     }
 
-    private static TimeMode time = TimeMode.minute3;
+    private static TimeMode time = TimeMode.minute2;
 
     public static TimeMode Time
     {
@@ -118,12 +118,12 @@ public static class GameParameters
         {
         case TimeMode.minute1:
             return 60.0f;
+        case TimeMode.minute2:
+            return 120.0f;
         case TimeMode.minute3:
             return 180.0f;
-        case TimeMode.minute5:
-            return 300.0f;
         default:
-            return 180.0f;
+            return 120.0f;
 		}
 	}
 
@@ -135,7 +135,7 @@ public static class GameParameters
         set { powerUpsFrequency = value; }
     }
 
-    private static RespawnTimeMode respawnTime = RespawnTimeMode.sec4;
+    private static RespawnTimeMode respawnTime = RespawnTimeMode.sec2;
 
     public static RespawnTimeMode RespawnTime
     {
@@ -146,14 +146,14 @@ public static class GameParameters
     public static float getRespawnTimeInSeconds() {
         switch(respawnTime)
         {
+        case RespawnTimeMode.sec1:
+            return 1.0f;
         case RespawnTimeMode.sec2:
             return 2.0f;
-        case RespawnTimeMode.sec4:
-            return 4.0f;
-        case RespawnTimeMode.sec6:
-            return 6.0f;
+        case RespawnTimeMode.sec3:
+            return 3.0f;
         default:
-            return 5.0f;
+            return 2.0f;
 		}
 	}
 

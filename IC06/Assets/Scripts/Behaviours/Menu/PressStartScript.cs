@@ -76,7 +76,7 @@ public class PressStartScript : MonoBehaviour
     {
         vitesseClignotement *= 6;
         delta = 0;
-        MenuScript.instance.JouerSon(MenuScript.Sons.PressStart);
+        MenuScript.instance.JouerSon(Sons.Menu.PressStart);
         startPressed = true;
     }
 }

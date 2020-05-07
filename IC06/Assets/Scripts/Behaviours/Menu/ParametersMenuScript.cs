@@ -95,15 +95,15 @@ public class ParametersMenuScript : MonoBehaviour
                     {
                         case GameParameters.TimeMode.minute1:
                             StartCoroutine(ChangerSelection(TimeSelect, Time3Button));
-                            GameParameters.Time = GameParameters.TimeMode.minute5;
+                            GameParameters.Time = GameParameters.TimeMode.minute3;
                             break;
-                        case GameParameters.TimeMode.minute3:
+                        case GameParameters.TimeMode.minute2:
                             StartCoroutine(ChangerSelection(TimeSelect, Time1Button));
                             GameParameters.Time = GameParameters.TimeMode.minute1;
                             break;
-                        case GameParameters.TimeMode.minute5:
+                        case GameParameters.TimeMode.minute3:
                             StartCoroutine(ChangerSelection(TimeSelect, Time2Button));
-                            GameParameters.Time = GameParameters.TimeMode.minute3;
+                            GameParameters.Time = GameParameters.TimeMode.minute2;
                             break;
                         default:
                             break;
@@ -114,13 +114,13 @@ public class ParametersMenuScript : MonoBehaviour
                     {
                         case GameParameters.TimeMode.minute1:
                             StartCoroutine(ChangerSelection(TimeSelect, Time2Button));
+                            GameParameters.Time = GameParameters.TimeMode.minute2;
+                            break;
+                        case GameParameters.TimeMode.minute2:
+                            StartCoroutine(ChangerSelection(TimeSelect, Time3Button));
                             GameParameters.Time = GameParameters.TimeMode.minute3;
                             break;
                         case GameParameters.TimeMode.minute3:
-                            StartCoroutine(ChangerSelection(TimeSelect, Time3Button));
-                            GameParameters.Time = GameParameters.TimeMode.minute5;
-                            break;
-                        case GameParameters.TimeMode.minute5:
                             StartCoroutine(ChangerSelection(TimeSelect, Time1Button));
                             GameParameters.Time = GameParameters.TimeMode.minute1;
                             break;
@@ -173,17 +173,17 @@ public class ParametersMenuScript : MonoBehaviour
                 case ParametersButton.TypeButton.RespawnLeft:
                     switch (GameParameters.RespawnTime)
                     {
-                        case GameParameters.RespawnTimeMode.sec2:
+                        case GameParameters.RespawnTimeMode.sec1:
                             StartCoroutine(ChangerSelection(RespawnSelect, Respawn3Button));
-                            GameParameters.RespawnTime = GameParameters.RespawnTimeMode.sec6;
+                            GameParameters.RespawnTime = GameParameters.RespawnTimeMode.sec3;
                             break;
-                        case GameParameters.RespawnTimeMode.sec4:
+                        case GameParameters.RespawnTimeMode.sec2:
                             StartCoroutine(ChangerSelection(RespawnSelect, Respawn1Button));
-                            GameParameters.RespawnTime = GameParameters.RespawnTimeMode.sec2;
+                            GameParameters.RespawnTime = GameParameters.RespawnTimeMode.sec1;
                             break;
-                        case GameParameters.RespawnTimeMode.sec6:
+                        case GameParameters.RespawnTimeMode.sec3:
                             StartCoroutine(ChangerSelection(RespawnSelect, Respawn2Button));
-                            GameParameters.RespawnTime = GameParameters.RespawnTimeMode.sec4;
+                            GameParameters.RespawnTime = GameParameters.RespawnTimeMode.sec2;
                             break;
                         default:
                             break;
@@ -192,17 +192,17 @@ public class ParametersMenuScript : MonoBehaviour
                 case ParametersButton.TypeButton.RespawnRight:
                     switch (GameParameters.RespawnTime)
                     {
-                        case GameParameters.RespawnTimeMode.sec2:
+                        case GameParameters.RespawnTimeMode.sec1:
                             StartCoroutine(ChangerSelection(RespawnSelect, Respawn2Button));
-                            GameParameters.RespawnTime = GameParameters.RespawnTimeMode.sec4;
-                            break;
-                        case GameParameters.RespawnTimeMode.sec4:
-                            StartCoroutine(ChangerSelection(RespawnSelect, Respawn3Button));
-                            GameParameters.RespawnTime = GameParameters.RespawnTimeMode.sec6;
-                            break;
-                        case GameParameters.RespawnTimeMode.sec6:
-                            StartCoroutine(ChangerSelection(RespawnSelect, Respawn1Button));
                             GameParameters.RespawnTime = GameParameters.RespawnTimeMode.sec2;
+                            break;
+                        case GameParameters.RespawnTimeMode.sec2:
+                            StartCoroutine(ChangerSelection(RespawnSelect, Respawn3Button));
+                            GameParameters.RespawnTime = GameParameters.RespawnTimeMode.sec3;
+                            break;
+                        case GameParameters.RespawnTimeMode.sec3:
+                            StartCoroutine(ChangerSelection(RespawnSelect, Respawn1Button));
+                            GameParameters.RespawnTime = GameParameters.RespawnTimeMode.sec1;
                             break;
                         default:
                             break;

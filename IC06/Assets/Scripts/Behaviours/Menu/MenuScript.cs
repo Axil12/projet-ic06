@@ -11,23 +11,6 @@ public class MenuScript : MonoBehaviour
     // SINGLETON : Evite de transformer toutes les autres variables en variables statiques, vu que l'on renseignera cette Toolbox à la place
     public static MenuScript instance = null;
 
-    // SONS
-    public enum Sons
-    {
-        PressStart = 0,
-        Select,
-        Move,
-    }
-
-    public enum Musics
-    {
-        Title = 0,
-        Action1,
-        Action2,
-        Action3,
-        Ending
-    }
-
     // REFERENCES OBJETS
     public GameObject logo = null;
     public GameObject mainMenu = null;
@@ -120,13 +103,13 @@ public class MenuScript : MonoBehaviour
         if (scriptPressStart.gameObject.activeInHierarchy == false && Input.GetButtonDown("Vertical"))
         {
             // JOUE SON
-            JouerSon(Sons.Move);
+            JouerSon(Sons.Menu.Move);
         }
 
         if (!parametersMenuScript.onStart && parametersMenu.activeInHierarchy == true && Input.GetButtonDown("Horizontal"))
         {
             // JOUE SON
-            JouerSon(Sons.Move);
+            JouerSon(Sons.Menu.Move);
         }
     }
 
@@ -140,7 +123,7 @@ public class MenuScript : MonoBehaviour
     public void ButtonPlay()
     {
         // JOUE SON
-        JouerSon(Sons.Select);
+        JouerSon(Sons.Menu.Select);
 
         // MAJ AFFICHAGE
         logo.SetActive(false);
@@ -152,7 +135,7 @@ public class MenuScript : MonoBehaviour
     public void EnterOptions()
     {
         // JOUE SON
-        JouerSon(Sons.Select);
+        JouerSon(Sons.Menu.Select);
 
         // MAJ AFFICHAGE
         logo.SetActive(false);
@@ -164,7 +147,7 @@ public class MenuScript : MonoBehaviour
     public void LeaveOptions()
     {
         // JOUE SON
-        JouerSon(Sons.Select);
+        JouerSon(Sons.Menu.Select);
 
         // MAJ AFFICHAGE
         logo.SetActive(true);
@@ -176,17 +159,6 @@ public class MenuScript : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
-        /*
-        Debug.Log("Exiting the game...");
-        if (Application.isEditor)
-        {
-            EditorApplication.ExecuteMenuItem("Edit/Play");
-        }
-        else
-        {
-            Application.Quit();
-        }
-        */
     }
 
     // METHODES GENERALES
@@ -200,7 +172,7 @@ public class MenuScript : MonoBehaviour
         scriptPressStart.gameObject.SetActive(true);
         musicAudio.volume = 0.5f;
         sfxAudio.volume = 0.5f;
-        JouerMusic(Musics.Title);
+        JouerMusic(Sons.Musics.Title);
     }
 
     public void ToggleFullscreen()
@@ -208,14 +180,21 @@ public class MenuScript : MonoBehaviour
         Screen.fullScreen = !Screen.fullScreen;
     }
 
-    public void JouerSon(Sons SonAJouer)
+    public void JouerSon(Sons.Menu SonAJouer)
     {
-        string chemin = "Sounds/" + SonAJouer.ToString();
+        string chemin = "Sounds/Menu/" + SonAJouer.ToString();
         sfxAudio.clip = Resources.Load(chemin, typeof(AudioClip)) as AudioClip;
         sfxAudio.Play();
     }
 
-    public void JouerMusic(Musics MusicAJouer)
+    public void JouerVoix(Sons.Voice VoixAJouer)
+    {
+        string chemin = "Sounds/Voice/" + VoixAJouer.ToString();
+        sfxAudio.clip = Resources.Load(chemin, typeof(AudioClip)) as AudioClip;
+        sfxAudio.Play();
+    }
+
+    public void JouerMusic(Sons.Musics MusicAJouer)
     {
         string chemin = "Musics/" + MusicAJouer.ToString();
         musicAudio.clip = Resources.Load(chemin, typeof(AudioClip)) as AudioClip;

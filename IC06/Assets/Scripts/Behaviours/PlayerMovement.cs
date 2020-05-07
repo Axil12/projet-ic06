@@ -22,29 +22,33 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Input P1
-        if(numPlayer == NumPlayer.P1)
+        if (!GameManagerScript.instance.pause)
         {
-            movement.x = Input.GetAxisRaw("P1 - Horizontal");
-            movement.y = Input.GetAxisRaw("P1 - Vertical");
-            if (Input.GetAxisRaw("P1 - Horizontal") != 0 || Input.GetAxisRaw("P1 - Vertical") != 0)
-                lastMovement = movement;
+            // Input P1
+            if (numPlayer == NumPlayer.P1)
+            {
+                movement.x = Input.GetAxisRaw("P1 - Horizontal");
+                movement.y = Input.GetAxisRaw("P1 - Vertical");
+                if (Input.GetAxisRaw("P1 - Horizontal") != 0 || Input.GetAxisRaw("P1 - Vertical") != 0)
+                    lastMovement = movement;
 
-            animator.SetFloat("Horizontal", movement.x);
-            animator.SetFloat("Vertical", movement.y);
-            animator.SetFloat("Speed", movement.sqrMagnitude);
-        }
+                animator.SetFloat("Horizontal", movement.x);
+                animator.SetFloat("Vertical", movement.y);
+                animator.SetFloat("Speed", movement.sqrMagnitude);
+            }
 
-        if (numPlayer == NumPlayer.P2)
-        {
-            movement.x = Input.GetAxisRaw("P2 - Horizontal");
-            movement.y = Input.GetAxisRaw("P2 - Vertical");
-            if (Input.GetAxisRaw("P2 - Horizontal") != 0 || Input.GetAxisRaw("P2 - Vertical") != 0)
-                lastMovement = movement;
+            // Input P2
+            if (numPlayer == NumPlayer.P2)
+            {
+                movement.x = Input.GetAxisRaw("P2 - Horizontal");
+                movement.y = Input.GetAxisRaw("P2 - Vertical");
+                if (Input.GetAxisRaw("P2 - Horizontal") != 0 || Input.GetAxisRaw("P2 - Vertical") != 0)
+                    lastMovement = movement;
 
-            animator.SetFloat("Horizontal", movement.x);
-            animator.SetFloat("Vertical", movement.y);
-            animator.SetFloat("Speed", movement.sqrMagnitude);
+                animator.SetFloat("Horizontal", movement.x);
+                animator.SetFloat("Vertical", movement.y);
+                animator.SetFloat("Speed", movement.sqrMagnitude);
+            }
         }
 
     }

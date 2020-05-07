@@ -5,36 +5,44 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManagerScript : MonoBehaviour
 {
-    // ENUM
-    public enum Sons
-    {
-        PressStart = 0,
-    }
+    // PARAMETRES DEBUGS
+    [Header("Paramètres Debug")]
+    public bool CountdownEnabled = true;
 
-    public enum Musics
-    {
-        Action1 = 0,
-        Action2,
-        Action3,
-    }
+    // SINGLETON
+    public static GameManagerScript instance = null;
 
     // EVENTS
+    [HideInInspector]
     public UnityEvent MAJScore;
+    [HideInInspector]
+    public UnityEvent HurryUpEvent;
 
     // REFERENCES
+    [Header("Références")]
     public AudioSource musicAudio = null;
     public AudioSource sfxAudio = null;
+    public AudioSource menuAudio = null;
     public TextMeshProUGUI timer = null;
+    public Image cacheLuminosite = null;
 
     // PROPRIETES
-    //public float delayBeforeRestart = 1.0f;
-    //public GameObject gameOverPanel;
-
+    [Header("Propriétés")]
+    public float gameLength = 10.0f;    // In seconds
     private bool gameHasEnded = false;
-    public float gameLength = 10.0f; //In seconds
+    //public float delayBeforeRestart = 1.0f;
+    //public GameObject gameOverPanel
+
+    [HideInInspector]
+    public bool pause = true;               // Permet de savoir quand la partie est en pause ou non (personnages peuvent bouger, timer tourne)
+    [HideInInspector]
+    public bool pausePossible = false;      // Permet de savoir quand il est possible de mettre pause
+    [HideInInspector]
+    public bool hurryUp = false;            // Permet de savoir quand on est en HurryUp
 
     [HideInInspector]
     public Dictionary<Color, string> players = new Dictionary<Color, string>();                     // 
@@ -45,26 +53,61 @@ public class GameManagerScript : MonoBehaviour
 
     void Awake()
     {
+        // INSTANCIATION SINGLETON
+        if (instance == null)
+            instance = this;
+        else if (instance != this)
+            Destroy(gameObject);
+
+        // REFERENCES MANQUANTES
+        if (cacheLuminosite == null)
+        {
+            cacheLuminosite = GameObject.Find("CacheLuminosite").GetComponent<Image>();
+        }
+
         // On paramètre la partie avec les GameParameters du menu
         SetupInitial();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
     }
 
     // Update is called once per frame
     void Update()
     {
         // TIMER : On décrémente le temps au fur et à mesure
-        gameLength -= Time.deltaTime;
-        TimeSpan ts = TimeSpan.FromSeconds(gameLength + 1f);
-        timer.text = ts.ToString("mm\\:ss");
-        if (gameLength <= -1)
+        if (!pause)
         {
-            endGame();
+            gameLength -= Time.deltaTime;
+            TimeSpan ts = TimeSpan.FromSeconds(gameLength + 1f);
+            timer.text = ts.ToString("mm\\:ss");
+            if (!hurryUp && gameLength <= 30.0f)
+            {
+                hurryUp = true;
+                HurryUpEvent.Invoke();
+            }
+            if (gameLength <= -1)
+            {
+                endGame();
+            }
+        }
+
+        // PAUSE : On met en pause la partie
+        if (pausePossible && Input.GetButtonDown("Pause"))
+        {
+            if (!pause)
+            {
+                Debug.Log("PAUSE");
+                pause = true;
+                Time.timeScale = 0;
+                cacheLuminosite.color = new Color(cacheLuminosite.color.r, cacheLuminosite.color.g, cacheLuminosite.color.b, cacheLuminosite.color.a + 0.25f);
+            }
+
+            // REPRISE
+            else
+            {
+                Debug.Log("UNPAUSE");
+                pause = false;
+                Time.timeScale = 1;
+                cacheLuminosite.color = new Color(cacheLuminosite.color.r, cacheLuminosite.color.g, cacheLuminosite.color.b, cacheLuminosite.color.a - 0.25f);
+            }
         }
     }
 
@@ -156,9 +199,14 @@ public class GameManagerScript : MonoBehaviour
 
     public void SetupInitial()
     {
-        // PARAMETRAGE VOLUME
+        // PAUSE INITIALE
+        pause = true;
+
+        // PARAMETRAGE VOLUME + LUMINOSITE
+        menuAudio.volume = GameParameters.SfxVolume * 1.75f;
         sfxAudio.volume = GameParameters.SfxVolume;
         musicAudio.volume = GameParameters.MusicVolume;
+        cacheLuminosite.color = new Color(cacheLuminosite.color.r, cacheLuminosite.color.g, cacheLuminosite.color.b, 1 - GameParameters.Luminosite);
 
         // PARAMETRAGE JOUEURS
         //GameParameters.Player1Character;
@@ -170,6 +218,8 @@ public class GameManagerScript : MonoBehaviour
         // PARAMETRAGE PARTIE (Temps Respawn, Temps partie, Taux apparition powersUps, PVs)
         setRespawnTimeForPlayers(GameParameters.getRespawnTimeInSeconds());
         gameLength = GameParameters.getTimeModeInSeconds();
+        TimeSpan ts = TimeSpan.FromSeconds(gameLength);
+        timer.text = ts.ToString("mm\\:ss");
         //GameParameters.PowerUpsFrequency;
         setMaxHealthPointsForPlayers(GameParameters.getMaxHealthPointsSetting());
 
@@ -178,15 +228,15 @@ public class GameManagerScript : MonoBehaviour
         int nbMusic = rnd.Next(1, 4);
         if (nbMusic == 1)
         {
-            JouerMusic(Musics.Action1);
+            JouerMusic(Sons.Musics.Action1);
         }
         if (nbMusic == 2)
         {
-            JouerMusic(Musics.Action2);
+            JouerMusic(Sons.Musics.Action2);
         }
         if (nbMusic == 3)
         {
-            JouerMusic(Musics.Action3);
+            JouerMusic(Sons.Musics.Action3);
         }
 
         Debug.Log("Paramètres partie (1) : " + "Volume Musique : " + GameParameters.MusicVolume + " / Volume Son : " + GameParameters.SfxVolume);
@@ -195,14 +245,28 @@ public class GameManagerScript : MonoBehaviour
         Debug.Log("Paramètres partie (4) : " + "Temps : " + GameParameters.Time + " / PowerUps : " + GameParameters.PowerUpsFrequency + " / Respawn : " + GameParameters.RespawnTime  + " / PV : " + GameParameters.PVMode);
     }
 
-    public void JouerSon(Sons SonAJouer)
+    public void JouerSonMenu(Sons.Menu SonAJouer)
     {
-        string chemin = "Sounds/" + SonAJouer.ToString();
+        string chemin = "Sounds/Menu/" + SonAJouer.ToString();
+        menuAudio.clip = Resources.Load(chemin, typeof(AudioClip)) as AudioClip;
+        menuAudio.Play();
+    }
+
+    public void JouerSonVoix(Sons.Voice SonAJouer)
+    {
+        string chemin = "Sounds/Voice/" + SonAJouer.ToString();
+        menuAudio.clip = Resources.Load(chemin, typeof(AudioClip)) as AudioClip;
+        menuAudio.Play();
+    }
+
+    public void JouerSonJeu(Sons.InGame SonAJouer)
+    {
+        string chemin = "Sounds/InGame/" + SonAJouer.ToString();
         sfxAudio.clip = Resources.Load(chemin, typeof(AudioClip)) as AudioClip;
         sfxAudio.Play();
     }
 
-    public void JouerMusic(Musics MusicAJouer)
+    public void JouerMusic(Sons.Musics MusicAJouer)
     {
         string chemin = "Musics/" + MusicAJouer.ToString();
         musicAudio.clip = Resources.Load(chemin, typeof(AudioClip)) as AudioClip;

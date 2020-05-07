@@ -45,7 +45,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beca3b60c2d469b4f9c2b628610e937d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MAJScore:
+    m_PersistentCalls:
+      m_Calls: []
+  musicAudio: {fileID: 0}
+  sfxAudio: {fileID: 0}
+  menuAudio: {fileID: 0}
+  timer: {fileID: 0}
+  cacheLuminosite: {fileID: 0}
+  pause: 0
   gameLength: 10
+  countdownOver: 0
 --- !u!82 &480204368622373559
 AudioSource:
   m_ObjectHideFlags: 0
